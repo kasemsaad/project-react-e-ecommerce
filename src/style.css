@@ -1,0 +1,93 @@
+
+
+  .download-btn {
+    left: auto;
+    right: 15px;
+    bottom: 0;
+    transform: rotate(0.25turn) translateY(100%);
+    transform-origin: bottom right;
+    padding: 40px 50px;
+  }
+
+  .download-btn ion-icon {
+    font-size: 30px;
+    transform: rotate(-0.25turn);
+   
+  }
+
+
+.card-container {
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card {
+
+  width: calc(33.333% - 20px);
+  margin-bottom: 20px;
+  background-color: rgba(173, 212, 205, 0.953) !important;
+}
+.img {
+  width: 100%;
+  height: 400px;
+  border-radius: 20px;
+  transition: transform 0.3s ease; /* Add a transition effect */
+}
+
+.img:hover {
+  transform: scale(1.1); /* Zoom in by 10% */
+}
+/* Custom CSS for Navbar links */
+.Navbar {
+ background-color: rgba(18, 17, 14, 0.953) !important; /* Set default text color */
+}
+/* Custom CSS for Navbar links */
+.nav-link {
+  color:rgb(66, 118, 118) !important; /* Set default text color */
+  border-radius: 10px;
+}
+
+/* Change background color on hover */
+.nav-link:hover {
+  background-color: rgb(194, 209, 209) !important; /* Change background color on hover */
+  color: black !important;
+}
+
+/* Style for the button */
+.btn-primary {
+  background-color: #28a745; /* Set primary button background color */
+  border-color: #28a745; /* Set primary button border color */
+}
+
+.btn-primary:hover {
+  background-color: #218838; /* Change primary button background color on hover */
+  border-color: #218838; /* Change primary button border color on hover */
+}
+.navbar-toggler-icon{
+background-color: aliceblue !important;
+border-radius: 5px;
+}
+.no-underline {
+  text-decoration: none ;
+}
+.name{
+/* padding-left: "50px";
+ */
+ margin-left: 50vw;
+ margin-top: 7.2px;
+ color:  rgba(23, 224, 187, 0.953);
+ padding: auto;
+
+}
+body{
+  padding-top:6vh;
+}
+@media (max-width: 991px) {
+  .name {
+    margin-left:0vw;
+    margin-top: 7.2px;
+    color:  rgba(173, 212, 205, 0.953);
+    padding: auto;  }
+}
