@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 
 function Myfavourit() {
   const [cart,setCart] = useState([]);
+  
   const storedFavourit = JSON.parse(localStorage.getItem("favourit")) || [];
   const dispatch = useDispatch();
 

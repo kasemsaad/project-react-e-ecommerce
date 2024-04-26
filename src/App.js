@@ -7,6 +7,8 @@ import Shopping from './views/shopping';
 import myfavourit from './views/myfavourit';
 import cart from './views/cart';
 import NotFound from './components/NotFound';
+import { CartProvider } from './views/cartContext';
+import ShoppingCart from './views/cart';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 function App(props) {
@@ -20,8 +22,15 @@ function App(props) {
             <Route component={Shopping} path="/" exact/>
             <Route component={Registerr} path="/Register" exact/>
             <Route component={getProduct} path="/getProduct/:id" exact/>
+          {/* <CartProvider>
+      <ShoppingCart />
+    </CartProvider> */}
             <Route component={myfavourit} path="/myfavourit/" exact/>
-            <Route component={cart} path="/cart/" exact/>
+            {/* <Route component={cart} path="/cart/" exact/> */}
+              <CartProvider>
+      {/* <ShoppingCar  t /> */}
+            <Route component={ShoppingCart} path="/cart/" exact/>
+    </CartProvider>
             <Route component={NotFound} path="*" />
           </Switch>
         </div>
