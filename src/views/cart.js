@@ -18,8 +18,10 @@ function ShoppingCart() {
                 <div className="card-body">
                   <h5 className="card-title">{product.title}</h5>
                   <p className="card-text">Price: ${product.price}</p>
-                  <button className="btn btn-primary" onClick={() => addItemToCart(product)}>Add to Cart</button>
-                  <button className="btn btn-primary" onClick={() => subtractItemFromCart(product)}>remove Cart</button>
+                  <button className="btn btn-success mx-1" onClick={() => addItemToCart(product)}>+</button>
+                  <span>{product.quantity}</span>
+
+                  <button className="btn btn-warning mx-1" onClick={() => subtractItemFromCart(product)}>-</button>
                 </div>
               </div>
             ))}
