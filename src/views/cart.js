@@ -4,10 +4,6 @@ import { CartContext } from '../views/cartContext';
 function ShoppingCart() {
   const { cart, addItemToCart, subtractItemFromCart,removeItemFromCart, getTotalPrice, getCartItemsCount } = useContext(CartContext);
 
-  if (!cart) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div className="container py-5">
       <div className="row">
