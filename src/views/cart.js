@@ -1,15 +1,18 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../views/cartContext';
+import { useSelector} from "react-redux";
 
 function ShoppingCart() {
-  const { cart, addItemToCart, subtractItemFromCart,removeItemFromCart, getTotalPrice, getCartItemsCount } = useContext(CartContext);
+  const datarducer = useSelector((state) => state.shop);
+  const {  addItemToCart, subtractItemFromCart,removeItemFromCart, getTotalPrice, getCartItemsCount } = useContext(CartContext);
+  const storedCartItems = datarducer.cart_data
 
   return (
     <div className="container py-5">
       <div className="row">
         <div className="col-md-8">
           <div className="product-list">
-            {cart.map((product) => (
+            {storedCartItems.map((product) => (
               <div key={product.id} className="card mb-3">
                 <div className="card-body">
                   <h5 className="card-title">{product.title}</h5>
@@ -27,7 +30,7 @@ function ShoppingCart() {
           <div className="cart-summary">
             <h2>Cart ({getCartItemsCount()})</h2>
             <ul className="list-group">
-              {cart.map((item) => (
+              {storedCartItems.map((item) => (
                 <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
                   <span>{item.title}</span>
                   <span>${item.price} x {item.quantity}</span>

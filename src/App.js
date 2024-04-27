@@ -5,7 +5,7 @@ import getProduct from './views/getProduct';
 import Nav from './components/Navbar1';
 import Shopping from './views/shopping';
 import myfavourit from './views/myfavourit';
-import cart from './views/cart';
+// import cart from './views/cart';
 import NotFound from './components/NotFound';
 import { CartProvider } from './views/cartContext';
 import ShoppingCart from './views/cart';
@@ -20,6 +20,7 @@ function App(props) {
           <Switch>
             <Route component={Loginn} path="/Login" exact/>
             <Route component={Shopping} path="/" exact/>
+            <Route component={Shopping} path="/shop" exact/>
             <Route component={Registerr} path="/Register" exact/>
             <Route component={getProduct} path="/getProduct/:id" exact/>
           {/* <CartProvider>

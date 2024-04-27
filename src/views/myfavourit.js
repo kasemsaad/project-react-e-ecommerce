@@ -1,8 +1,6 @@
 import '../style.css';
-import React, {useState} from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch,useSelector} from "react-redux";
 import { Link } from "react-router-dom";
-import { changecart,changefavourit } from "../Store/action";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { Provider } from "react-redux";
@@ -10,44 +8,23 @@ import store from "../Store/store";
 import Footer from '../components/Footer';
 
 function Myfavourit() {
-  const [cart,setCart] = useState([]);
-  
-  const storedFavourit = JSON.parse(localStorage.getItem("favourit")) || [];
   const dispatch = useDispatch();
-
-
-  let counter = (JSON.parse(localStorage.getItem("cart") || "[]").length);
-  const countcart = (item) => {
-    dispatch(changecart(counter++));
-    Con(item);
+  const datarducer = useSelector((state) => state.shop);
+  const storedFavourit = datarducer.favourit_data
+  const addrduce = (op, key) => {
+  const isAlreadyInCart = datarducer.cart_data.some(item => item.id === op.id);
+  if (!isAlreadyInCart ) {
+    dispatch({
+      type: key,
+      payload: JSON.stringify(op)
+    })
+  }
   };
-
-  let counterfavourit = (JSON.parse(localStorage.getItem("favourit") || "[]").length);
-  const countfavourit = (item,id) => {
-    dispatch(changefavourit(counterfavourit++));
-    removeItem(item,id);
-  };
-  const Con = (item,key) => {
-    try {
-      const parsedItem = JSON.parse(decodeURIComponent(item));
-      let existingkey = JSON.parse(localStorage.getItem(key)) || [];
-      const isItemInCart = existingkey.some(
-        (cartItem) => cartItem.id === parsedItem.id
-      );
-      if (!isItemInCart) {
-        existingkey.push(parsedItem);
-        localStorage.setItem(key, JSON.stringify(existingkey));
-      }
-    } catch (error) {
-      console.error("Error decoding URI component:", error);
-    }
-  };
- 
-  const removeItem = (favourit, id) => {
-    const updatedFavourit = favourit.filter((favourit) => favourit.id !== id);
-    setCart(updatedFavourit);
-    localStorage.setItem("favourit", JSON.stringify(updatedFavourit));
-    
+  const removeFavourit = (itemId) => {
+    dispatch({
+      type: "REMOVE_FAVOURIT",
+      payload: itemId
+    });
   };
 
   return (
@@ -71,22 +48,19 @@ function Myfavourit() {
                     width="100"
                   />
                 </div>
-                <h3>ID {product.id}</h3>
+                {/* <h3>ID {product.id}</h3> */}
                 <h3>{product.title}</h3>
                 <div className=" text-danger p-2">
                   Price $<span>{product.price}</span>
                 </div>
               </Link>
-              <button
-                className="btn"
-                onClick={() => countcart(JSON.stringify(product))}
-                >
-                <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
+              <button className="btn" onClick={() => addrduce(product,"CHANGE_CART")}>
+              <FontAwesomeIcon icon={faShoppingCart}  style={{ color: "rgba(116, 196, 181, 0.953)" }} /> Add to Cart
               </button>
               <button className="btn btn-danger " onClick={() => {
-                countfavourit(storedFavourit, product.id)
+                removeFavourit(product.id)
               }}>remove</button>
-              <Link to={`/getProduct/${product.id}`} className="btn btn-dark">
+              <Link to={`/getProduct/${product.id}`} className="btn btn-primary">
                 Details
               </Link>
             </div>

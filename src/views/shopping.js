@@ -1,94 +1,75 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Alert } from "react-bootstrap";
-import { changecart, changefavourit } from "../Store/action";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../views/pagination";
 import Footer from '../components/Footer';
+import { useSelector} from "react-redux";
 
 function Shopping() {
   const [products, setProducts] = useState([]);
+
   const [searchTerm, setSearchTerm] = useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [postPerPage] = useState(9);
+  const [postPage] = useState(9);
+  
   const dispatch = useDispatch();
+
+  const datarducer = useSelector((state) => state.shop);
   const savedUserData = JSON.parse(localStorage.getItem("userData"));
-  const [errorMessage, setErrorMessage] = useState("");
-  const [sucessMessage, setSucessMessage] = useState("");
-
-  useEffect(() => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data.products)) {
-          setProducts(data.products);
-        } else {
-          console.error("Data fetched is not an array:", data);
-        }
-      })
-      .catch((error) => console.error("Error fetching products:", error));
-  }, []);
-
-  const countshop = (item, key) => {
-    if (key === "cart") {
-      let counter = JSON.parse(localStorage.getItem("cart") || "[]").length;
-      dispatch(changecart(counter++));
-    } else if (key === "favourit") {
-      let counter = JSON.parse(localStorage.getItem("favourit") || "[]").length;
-      dispatch(changefavourit(counter++));
-    }
-    Con(item, key);
-  };
-
-  const Con = (item, key) => {
-    try {
-      const parsedItem = JSON.parse(decodeURIComponent(item));
-      let existingkey = JSON.parse(localStorage.getItem(key)) || [];
-      const isItemInKey = existingkey.some(
-        (keyItem) => keyItem.id === parsedItem.id
-      );
-      if (!isItemInKey) {
-        existingkey.push(parsedItem);
-        localStorage.setItem(key, JSON.stringify(existingkey));
-      }
-    } catch (error) {
-      console.error("Error decoding URI component:", error);
-    }
-  };
-
+  
   const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  product.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
-  const indexOfLastPost = currentPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
+//////////// pagination
+  const indexOfLastPost = currentPage * postPage;
+  const indexOfFirstPost = indexOfLastPost - postPage;
   const currentPosts = filteredProducts.slice(
     indexOfFirstPost,
     indexOfLastPost
   );
+//////////get products
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((res) => res.json())
+      .then((data) => {
+          setProducts(data.products);
+      })
+  }, []);
 
+////////add to favourit , cart and Check
+  const addrduce = (op, key) => {
+    const isAlreadyInFavourites = datarducer.favourit_data.some(item => item.id === op.id);
+    const isAlreadyInCart = datarducer.cart_data.some(item => item.id === op.id);
+  if(key==="CHANGE_FAVOURIT"){
+    if (!isAlreadyInFavourites ) {
+      dispatch({
+        type: key,
+        payload: JSON.stringify(op)
+      });
+    }
+  }
+  if(savedUserData){
+  if(key==="CHANGE_CART"){
+    if (!isAlreadyInCart ) {
+      dispatch({
+        type: key,
+        payload: JSON.stringify(op)
+      });
+    }
+  }}
+  };
+
+////////////search
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const handleAddToCartt = (product) => {
-    if (savedUserData) {
-      countshop(JSON.stringify(product), "cart");
-      setSucessMessage("Add to Cart is Success");
-      setTimeout(() => {
-        setSucessMessage("");
-      }, 3000);
-    } else {
-      setErrorMessage("Please login Account");
-      setTimeout(() => {
-        setErrorMessage("");
-      }, 3000);
-    }
-  };
-
+////////front
   return (
     <div className="w-100">
     <div
@@ -110,8 +91,6 @@ function Shopping() {
         </div>
       </div>
       <div className="row">
-        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-        {sucessMessage && <Alert variant="success">{sucessMessage}</Alert>}
         {currentPosts.map((product) => (
           <div className="col-md-4" key={product.id}>
             <div className="card no-underline p-2 w-100">
@@ -132,7 +111,7 @@ function Shopping() {
                     width="100"
                   />
                 </div>
-                <h3>ID {product.id}</h3>
+                {/* <h3>ID {product.id}</h3> */}
                 <h3>{product.title}</h3>
                 <div className=" text-danger p-2">
                   Price $<span>{product.price}</span>
@@ -140,16 +119,15 @@ function Shopping() {
               </Link>
               <button
                 className="btn"
-                onClick={() => countshop(JSON.stringify(product), "favourit")}
+                onClick={() =>addrduce(product,"CHANGE_FAVOURIT")} 
               >
-                <FontAwesomeIcon icon={faHeart} /> Add to Favorites
+                <FontAwesomeIcon icon={faHeart}  style={{ color: "red" }} /> Add to Favorites
+              </button>
+              <button className="btn" onClick={() => addrduce(product,"CHANGE_CART")}>
+                <FontAwesomeIcon icon={faShoppingCart}  style={{ color: "rgba(116, 196, 181, 0.953)" }} /> Add to Cart
               </button>
 
-              <button className="btn" onClick={() => handleAddToCartt(product)}>
-                <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
-              </button>
-
-              <Link to={`/getProduct/${product.id}`} className="btn btn-dark">
+              <Link to={`/getProduct/${product.id}`} className="btn btn-primary">
                 Details
               </Link>
             </div>
@@ -158,7 +136,7 @@ function Shopping() {
       </div>
       <Pagination
         totalPosts={filteredProducts.length}
-        postsPerPage={postPerPage}
+        postsPerPage={postPage}
         setCurrentPage={setCurrentPage}
       />
     </div>

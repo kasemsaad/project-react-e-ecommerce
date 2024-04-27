@@ -46,7 +46,7 @@ function GetProduct() {
       </div>
       <div className="col-md-4">
        
-        <Link to={`/`} className="btn btn-dark mt-3 ms-3" style={{textdecoration: "none"}}>
+        <Link to={`/`} className="btn btn-primary mt-3 ms-3" style={{textdecoration: "none"}}>
           Shopping
         </Link>
       </div>

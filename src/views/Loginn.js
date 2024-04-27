@@ -45,7 +45,6 @@ function Loginn(props) {
         const savedUserData = JSON.parse(localStorage.getItem("userData"));
         if((savedUserData.email === userData.email) && (savedUserData.password === userData.password)){
           props.history.push("/");
-         console.log(savedUserData.email)
          console.log("data is submeted")
         }else{
             console.log("not valid email or password")
@@ -70,9 +69,9 @@ function Loginn(props) {
                         onChange={handleChange}
                         name="email"
                     />
-                    <Form.Text className="text-muted">
+                    {/* <Form.Text className="text-muted">
                         We'll never share your email with anyone else.
-                    </Form.Text>
+                    </Form.Text> */}
                     <p className="text-danger">{errors.emailError}</p> {/* Display email error */}
                 </Form.Group>
 
@@ -97,7 +96,7 @@ function Loginn(props) {
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
 
-                <Button disabled={userData.email.length === 0 || userData.password.length === 0 || errors.passwordError || errors.emailError} type="submit" className="btn "  style={{ backgroundColor: ' black', border:'none'}}>Submit</Button>
+                <Button disabled={userData.email.length === 0 || userData.password.length === 0 || errors.passwordError || errors.emailError} type="submit" className="btn "  style={{ backgroundColor: 'primary', border:'none'}}>Submit</Button>
             </Form>
         </div>
     );

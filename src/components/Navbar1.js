@@ -1,14 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+
 import logo from "../pngegg.png";
-import { useSelector } from "react-redux";
+import { useSelector, } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import "../style.css"
 function Navbar1(Props) {
   const countcart = useSelector((state) => state.shop);
-
   const savedUserData = JSON.parse(localStorage.getItem("userData"));
+
   const handleLogout = () => {
     localStorage.removeItem("userData","cart","favourit");
   };
@@ -47,27 +48,17 @@ function Navbar1(Props) {
                 <span className="badge bg-danger ms-2">{countcart.favourit}</span>
               </Link>
             </li>
-            <li className="nav-item dropdown">
-              <Link className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </Link>
-              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                {/* <li><a className="dropdown-item" href="#">Action</a></li>
-                <li><a className="dropdown-item" href="#">Another action</a></li>
-                <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Something else here</a></li> */}
-              </ul>
-            </li>
+         
           </ul>
           {savedUserData && (
             <>
               <span className="nav-item pe-2">{savedUserData.username}</span>
-              <Link className="nav-link pe-2" onClick={() => handleLogout()}>Logout</Link>
+              <Link className="nav-link pe-2"  to="/shop" onClick={() => handleLogout()}>Logout</Link>
             </>
           )}
           <Link className="nav-link" to="/cart">
             <FontAwesomeIcon icon={faShoppingCart} />
-            <span className="badge bg-danger ms-2">{countcart.cart}</span>
+            <span className="badge bg-danger ms-2">{(countcart.cart)}</span>
           </Link>
         </div>
       </div>

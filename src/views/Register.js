@@ -1,6 +1,7 @@
 
 
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 let alert=0;
@@ -52,11 +53,13 @@ function Register() {
     const showPasswordToggle = () => {
         setShowPassword(!showPassword);
     };
+  const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         localStorage.setItem("userData", JSON.stringify(userData));
+    history.push("/login");
 
         // Clear form fields
         setUserData({
@@ -150,7 +153,7 @@ React.useEffect(() => {
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
 
-                <Button disabled={Object.values(userData).some(value => value.length === 0) || Object.values(errors).some(error => error)} type="submit" className="btn "  style={{ backgroundColor: ' black', border:'none'}}>Submit</Button>
+                <Button disabled={Object.values(userData).some(value => value.length === 0) || Object.values(errors).some(error => error)} type="submit" className="btn "  style={{ backgroundColor: 'primary', border:'none'}}>Submit</Button>
             </Form>
            
         </div>
